@@ -4,9 +4,14 @@ FROM runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404
 ENV HF_HUB_ENABLE_HF_TRANSFER=1
 WORKDIR /
 
-# Cài dependencies (torch đã có sẵn trong base image)
 COPY builder/requirements.txt /requirements.txt
-RUN pip install --no-cache-dir -r /requirements.txt
+
+# FIX: 'cryptography' trong image được cài bởi Debian/apt (không có RECORD) nên pip
+# không gỡ/nâng cấp được -> lỗi "uninstall-no-record-file". Cài lại bằng pip trước
+# (ignore-installed) để pip quản lý được, rồi mới cài requirements.
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir --ignore-installed cryptography && \
+    pip install --no-cache-dir -r /requirements.txt
 
 # Tải & BAKE model vào image → không tải lúc chạy → cold-start nhanh
 RUN python -c "from huggingface_hub import snapshot_download; snapshot_download('k2-fsa/OmniVoice')"
