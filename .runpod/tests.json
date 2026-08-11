@@ -1,0 +1,13 @@
+{
+  "tests": [
+    {
+      "name": "hello_vi",
+      "input": { "text": "Xin chào, đây là bài kiểm tra.", "language": "vi" },
+      "timeout": 180000
+    }
+  ],
+  "config": {
+    "gpuTypeId": "NVIDIA GeForce RTX 3090",
+    "allowedCudaVersions": ["12.8", "12.7", "12.6"]
+  }
+}

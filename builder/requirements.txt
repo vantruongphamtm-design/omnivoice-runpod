@@ -1,0 +1,6 @@
+runpod>=1.6.0
+omnivoice==0.2.1
+soundfile
+numpy
+hf_transfer
+huggingface_hub
